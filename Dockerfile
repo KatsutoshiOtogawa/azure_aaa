@@ -2,10 +2,11 @@ FROM golang:1.18-bullseye as builder
 
 RUN apt update && apt upgrade -y
 RUN useradd -m app
-USER app
 WORKDIR /home/app
 COPY . .
 
+RUN chown -R app /home/app
+USER app
 RUN go mod tidy
 RUN build -o out/server
 
