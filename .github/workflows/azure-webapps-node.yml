@@ -50,15 +50,15 @@ jobs:
       run: echo "::set-output name=tag::$(date +${TAG_FORMAT})"
     - name: 'docker build'
       run: |
-        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ steps.tag_format.outputs.tag }}${{ github.sha }}
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ steps.tag_format.outputs.tag }}${{ github.sha }}
+        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ steps.tag_format.outputs.tag }}${{ github.sha:0:8 }}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ steps.tag_format.outputs.tag }}${{ github.sha:0:8 }}
 
     - name: 'Deploy to Azure Container Instances'
       uses: 'azure/aci-deploy@v1'
       with:
         resource-group: ${{ secrets.RESOURCE_GROUP }}
         dns-name-label: 'hellodnscontainer'
-        image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ steps.tag_format.outputs.tag }}${{ github.sha }}
+        image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ steps.tag_format.outputs.tag }}${{ github.sha:0:8 }}
         registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
         registry-username: ${{ secrets.REGISTRY_USERNAME }}
         registry-password: ${{ secrets.REGISTRY_PASSWORD }}
