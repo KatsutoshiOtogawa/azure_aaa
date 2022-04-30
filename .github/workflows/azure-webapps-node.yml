@@ -42,17 +42,23 @@ jobs:
         login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
+    - id: 'tag_format'
+      name: 'tag format'
+      env:
+        TAG_FORMAT: "%Y%m%dT%H%M%SZ"
+        TZ: 'Asia/Tokyo'
+      run: echo "::set-output name=tag::$(date +${TAG_FORMAT})"
     - name: 'docker build'
       run: |
-        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
+        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ steps.tag_format.outputs.tag }}${{ github.sha }}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ steps.tag_format.outputs.tag }}${{ github.sha }}
 
     - name: 'Deploy to Azure Container Instances'
       uses: 'azure/aci-deploy@v1'
       with:
         resource-group: ${{ secrets.RESOURCE_GROUP }}
         dns-name-label: 'hellodnscontainer'
-        image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
+        image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ steps.tag_format.outputs.tag }}${{ github.sha }}
         registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
         registry-username: ${{ secrets.REGISTRY_USERNAME }}
         registry-password: ${{ secrets.REGISTRY_PASSWORD }}
