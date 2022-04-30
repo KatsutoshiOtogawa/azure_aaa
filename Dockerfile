@@ -8,7 +8,7 @@ COPY . .
 RUN chown -R app /home/app
 USER app
 RUN go mod tidy
-RUN build -o out/server
+RUN go build -o out/server
 
 FROM debian:bullseye-slim
 
