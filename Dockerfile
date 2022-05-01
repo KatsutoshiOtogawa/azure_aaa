@@ -21,4 +21,4 @@ RUN useradd -m app
 USER app
 WORKDIR /home/app
 
-CMD ["/usr/bin/server"]
+CMD ["/usr/local/bin/server"]
