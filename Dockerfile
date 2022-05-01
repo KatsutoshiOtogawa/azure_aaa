@@ -17,6 +17,7 @@ COPY --from=builder /home/app/out/server /usr/local/bin/
 RUN apt update && apt upgrade -y
 RUN chmod 755 /usr/local/bin/server
 
+EXPOSE 8080
 RUN useradd -m app
 USER app
 WORKDIR /home/app
