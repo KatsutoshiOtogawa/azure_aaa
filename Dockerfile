@@ -20,3 +20,5 @@ RUN chmod 755 /usr/local/bin/server
 RUN useradd -m app
 USER app
 WORKDIR /home/app
+
+CMD ["/usr/bin/server"]
