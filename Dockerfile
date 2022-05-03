@@ -1,6 +1,5 @@
 FROM golang:1.18-bullseye as builder
 
-RUN apt update && apt upgrade -y
 RUN useradd -m app
 WORKDIR /home/app
 COPY . .
@@ -17,7 +16,7 @@ COPY --from=builder /home/app/out/server /usr/local/bin/
 RUN apt update && apt upgrade -y
 RUN chmod 755 /usr/local/bin/server
 
-EXPOSE 8080
+EXPOSE 80
 RUN useradd -m app
 USER app
 WORKDIR /home/app
