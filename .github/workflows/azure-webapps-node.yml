@@ -69,7 +69,7 @@ jobs:
         # サブスクリプションが無料だとできない？
         # cpu: 1   #Optional
         # memory: 0.1   #Optional
-        environment-variables: PORT=80
+        # environment-variables: PORT=80
         # check azure usable location.
         # az account list-locations --query "[].{Name:name}" --output table
         location: 'Japan East'

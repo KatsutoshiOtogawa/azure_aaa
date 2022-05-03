@@ -16,7 +16,7 @@ COPY --from=builder /home/app/out/server /usr/local/bin/
 RUN apt update && apt upgrade -y
 RUN chmod 755 /usr/local/bin/server
 
-EXPOSE 80
+RUN setcap 'cap_net_bind_service=+ep' /usr/local/bin/server
 RUN useradd -m app
 USER app
 WORKDIR /home/app
