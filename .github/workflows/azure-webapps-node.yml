@@ -68,4 +68,4 @@ jobs:
         name: acisampleapp
         # check azure usable location.
         # az account list-locations --query "[].{Name:name}" --output table
-        location: 'Japan West'
+        location: 'Japan East'
