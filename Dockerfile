@@ -14,6 +14,9 @@ FROM debian:bullseye-slim
 COPY --from=builder /home/app/out/server /usr/local/bin/
 
 RUN apt update && apt upgrade -y
+
+RUN apt install -y libcap2-bin
+
 RUN chmod 755 /usr/local/bin/server
 
 RUN setcap 'cap_net_bind_service=+ep' /usr/local/bin/server
