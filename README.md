@@ -14,3 +14,5 @@ az container create \
   --subnet aci-subnet \
   --subnet-address-prefix 10.0.0.0/24
 ```
+
+r.RunTLS(":8080", "./testdata/server.pem", "./testdata/server.key")

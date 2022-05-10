@@ -1,4 +1,5 @@
-FROM golang:1.18-bullseye as builder
+ARG VARIANT="1.18"
+FROM golang:${VARIANT}-bullseye as builder
 
 RUN useradd -m app
 WORKDIR /home/app
@@ -21,6 +22,9 @@ RUN chmod 755 /usr/local/bin/server
 
 RUN setcap 'cap_net_bind_service=+ep' /usr/local/bin/server
 RUN useradd -m app
+# app用のsocket
+RUN mkdir /var/run/go && chown app /var/run/go
+
 USER app
 WORKDIR /home/app
 
